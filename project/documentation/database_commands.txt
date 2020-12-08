@@ -1,0 +1,32 @@
+The behavior reported to the application are as follows:
+
+    Sleep duration and sleep quality
+    Time spent on sports and exercise
+    Time spent studying
+    Regularity and quality of eating
+    Generic mood
+
+Database creation commands
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(320) NOT NULL,
+    password CHAR(60) NOT NULL
+);
+
+CREATE UNIQUE INDEX ON users((lower(email)));
+
+CREATE TABLE reports (
+    id SERIAL PRIMARY KEY,
+    morning BOOLEAN NOT NULL,
+    mood INTEGER NOT NULL check (mood between 1 and 5),
+    
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+
+    sleep_duration INTEGER check (sleep_duration between 0 and 30),
+    sleep_quality INTEGER check (sleep_quality between 1 and 5),
+
+    time_sport INTEGER check (time_sport between 0 and 24),
+    time_study INTEGER check (time_study between 0 and 24),
+    eating INTEGER check (eating between 1 and 5)
+);
