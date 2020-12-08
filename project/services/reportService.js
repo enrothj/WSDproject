@@ -42,10 +42,12 @@ const reportMorning = async (report) => {
  * if a user skips reporting, the data can be filled in at a later point. 
  */
 const reportEvening = async (report) => {
-  await executeQuery("INSERT INTO reports (morning, mood, ")
+  const date = (report.date) ? report.date : "CURRENT_DATE";
+  await executeQuery("INSERT INTO reports (morning, mood, time_sport, time_study, eating, user_id, date) VALUES (false, $1,$2,$3,$4,$5,$6);",
+                                      report.mood, report.time_sport, report.time_study, report.eating, report.user_id, date);
 }
 
 
 
 
-export { getHello, setHello };
+export { reportMorning, reportEvening };
