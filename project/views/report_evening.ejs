@@ -1,0 +1,15 @@
+<%- include("./partials/header.ejs") %>
+<h1>Report evening</h1>
+<body>
+    <form method="POST" action="/report/evening">
+        <input type="number" name="Mood">
+        <input type="number" name="Sport and Exercise">
+        <input type="number" name="Study">
+        <input type="number" name="Eating">
+        <input type="date" name="Date" value="<% new Date().toDateInputValue() %>" >
+        <input type="submit" name="Submit Morning Report">
+    </form>
+</body>
+
+
+<%- include("./partials/footer.ejs") %>
