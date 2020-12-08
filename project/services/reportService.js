@@ -23,8 +23,10 @@ const setHello = async(newMessage) => {
  * should also provide an input field through which a different day can be chosen -- this way, 
  * if a user skips reporting, the data can be filled in at a later point. 
  */
-const reportMorning = async () => {
-
+const reportMorning = async (report) => {
+  const res = await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id) VALUES (true, $1,$2,$3, 1);", 
+                                    report.mood, report.sleep_duration, report.sleep_quality);
+// TODO: add user id
 }
 
 /**
