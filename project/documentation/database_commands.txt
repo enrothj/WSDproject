@@ -18,6 +18,7 @@ CREATE UNIQUE INDEX ON users((lower(email)));
 
 CREATE TABLE reports (
     id SERIAL PRIMARY KEY,
+    date DATE,
     morning BOOLEAN NOT NULL,
     mood INTEGER NOT NULL check (mood between 1 and 5),
     
