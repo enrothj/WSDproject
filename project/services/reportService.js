@@ -48,6 +48,24 @@ const reportEvening = async (report) => {
 }
 
 
+const getAllReports = async () => {
+  const user_id = 1; // TODO: add auth etc.
+  const results = await executeQuery("SELECT * FROM reports WHERE user_id = $1;", user_id);
+  if (results && results.rowCount > 0) {
+    return results.rowsOfObjects;
+  }
+  return [];
+}
 
 
-export { reportMorning, reportEvening };
+const getReport = async (params) => {
+  const id = params.id;
+  const result = await executeQuery("SELECT * FROM reports WHERE id = $1", id);
+  if (result && result.rowsOfObjects > 0) {
+    return result.rowsOfObjects[0];
+  }
+  return {};
+}
+
+
+export { reportMorning, reportEvening, getAllReports, getReport };
