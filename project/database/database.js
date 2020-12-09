@@ -5,16 +5,17 @@ const getClient = () => {
   return new Client(config.database);
 }
 
-const executeQuery = async(query, ...args) => {
-  const client = getClient();
+const executeQuery = async(query, ...params) => {
+  const client = await connectionPool.connect();
   try {
-    await client.connect();
-    return await client.query(query, ...args);
+      return await client.query(query, ...params);
   } catch (e) {
-    console.log(e);
+      console.log(e);  
   } finally {
-    await client.end();
+      client.release();
   }
-}
+  
+  return null;
+};
 
 export { executeQuery };

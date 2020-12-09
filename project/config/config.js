@@ -1,15 +1,11 @@
-let config = {};
+const CONCURRENT_CONNECTIONS = 5;
+const connectionPool = new Pool({
+  hostname: "hattie.db.elephantsql.com",
+  database: "qycqrpwq",
+  user: "qycqrpwq",
+  password: "euMQl-Qnv2K_SBclBq1xpTkChfNPsyC8",// TODO move to .env
+  port: 5432
+}, CONCURRENT_CONNECTIONS);
 
-if (Deno.env.get('TEST_ENVIRONMENT')) {
-  config.database = {};
-} else {
-  config.database = {
-    hostname: "hattie.db.elephantsql.com",
-    database: "qycqrpwq",
-    user: "qycqrpwq",
-    password: "02UKWz6ij3-rAI58g-7sqclNnFaclm35",
-    port: 5432
-  };
-}
 
-export { config }; 
+export { connectionPool }; 
