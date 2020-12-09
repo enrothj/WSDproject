@@ -1,9 +1,4 @@
-import { Client } from "../deps.js";
-import { config } from "../config/config.js";
-
-const getClient = () => {
-  return new Client(config.database);
-}
+import { connectionPool } from "../config/config.js";
 
 const executeQuery = async(query, ...params) => {
   const client = await connectionPool.connect();
