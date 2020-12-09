@@ -13,6 +13,27 @@ const setHello = async(newMessage) => {
   await executeQuery("INSERT INTO messages (message, sender) VALUES ($1, 'API');", newMessage);
 }
 
+// Returns the status of reporting done on that day TODO: add date parameter
+const reportStatus = async (user_id) => {
+  const today = new Date();
+  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  const morning_done = await executeQuery("SELECT * FROM reports WHERE user_id = $1 and date = $2 and morning = true;", user_id, date);
+  const evening_done = await executeQuery("SELECT * FROM reports WHERE user_id = $1 and date = $2 and morning = false;", user_id, date);
+
+  let morning = false;
+  let evening = false;
+
+  if (morning_done && morning_done.rowCount > 0) {
+    morning = true;
+  }
+  if (evening_done && evening_done.rowCount > 0) {
+    evening = true;
+  }
+
+  return {morning_done: morning, evening_done: evening};
+}
+
+
 /**
  * the application asks for the sleep duration and sleep quality, as well as generic mood. 
  * Sleep duration is given as a decimal indicating hours slept, and sleep quality and generic 
@@ -67,4 +88,4 @@ const getReport = async (id) => {
 }
 
 
-export { reportMorning, reportEvening, getAllReports, getReport };
+export { reportMorning, reportEvening, getAllReports, getReport, reportStatus };

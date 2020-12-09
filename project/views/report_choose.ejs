@@ -1,7 +1,9 @@
 <%- include("./partials/header.ejs") %>
 <body>
-    Choose the type of reporting you want to do.
-    <input type="button" name="Morning" onclick="" >
-    <input type="button" name="Evening" onclick="" >
+    <p>Choose the type of reporting you want to do.</p>
+
+    <p><input type="button" value="Morning" onclick="" > Morning reporting done for today: <%= morning_done %></p>
+
+    <p><input type="button" value="Evening" onclick="" > Evening reporting done for today: <%= evening_done %></p>
 </body>
 <%- include("./partials/footer.ejs") %>
