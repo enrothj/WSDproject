@@ -10,6 +10,8 @@ import * as reportController from "./controllers/reportController.js"
 const router = new Router();
 
 router.get('/behavior/reporting', reportController.getReporting);
+router.get('/behavior/reporting/morning', reportController.getMorningReport);
+router.get('/behavior/reporting/evening', reportController.getEveningReport);
 /*
 //router.get('/', hello);
 router.get('/api/hello', helloApi.getHello);

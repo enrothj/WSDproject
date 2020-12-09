@@ -2,11 +2,11 @@
 <h1>Report evening</h1>
 <body>
     <form method="POST" action="/report/evening">
-        <input type="number" name="Mood">
-        <input type="number" name="Sport and Exercise">
-        <input type="number" name="Study">
-        <input type="number" name="Eating">
-        <input type="date" name="Date" value="<% new Date().toDateInputValue() %>" >
+        <input type="number" name="Mood" min=1 max=5>
+        <input type="number" name="Sport and Exercise" min=1 max=5>
+        <input type="number" name="Study" min=1 max=5>
+        <input type="number" name="Eating" min=1 max=5>
+        <input type="date" name="Date">
         <input type="submit" name="Submit Morning Report">
     </form>
 </body>

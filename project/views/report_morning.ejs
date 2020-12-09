@@ -2,10 +2,10 @@
 <h1>Report morning</h1>
 <body>
     <form method="POST" action="/report/morning">
-        <input type="number" name="Mood">
-        <input type="number" name="Sleep Duration">
-        <input type="number" name="Sleep Quality">
-        <input type="date" name="Date" value="<% new Date().toDateInputValue() %>" >
+        <input type="number" name="Mood" min=1 max=5>
+        <input type="number" name="Sleep Duration" min=1 max=5>
+        <input type="number" name="Sleep Quality" min=1 max=5>
+        <input type="date" name="Date">
         <input type="submit" name="Submit Morning Report">
     </form>
 </body>
