@@ -58,8 +58,7 @@ const getAllReports = async () => {
 }
 
 
-const getReport = async (params) => {
-  const id = params.id;
+const getReport = async (id) => {
   const result = await executeQuery("SELECT * FROM reports WHERE id = $1", id);
   if (result && result.rowsOfObjects > 0) {
     return result.rowsOfObjects[0];
