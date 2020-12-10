@@ -46,7 +46,11 @@ const reportStatus = async (user_id) => {
  */
 const reportMorning = async (report) => {
   const date = (report.date) ? report.date : "now()";
-  await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id, date) VALUES (true, $1,$2,$3,$4,'$5');", 
+  console.log(date);
+  for (var key of Object.keys(report)) {
+    console.log(key + " -> " + report[key])
+  }
+  await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id, date) VALUES (true, $1,$2,$3,$4,$5);", 
                                     report.mood, report.sleep_duration, report.sleep_quality, report.user_id, date);
 }
 
