@@ -44,13 +44,10 @@ const postMorningReport = async ({request, render}) => {
 
     const report = {};
     report.mood = params.get('mood');
-    console.log(report.mood);
     report.sleep_duration = params.get('sleep_duration');
-    console.log(report.sleep_duration);
     report.sleep_quality = params.get('sleep_quality');
-    console.log(report.sleep_quality);
     report.date = params.get('date');
-    console.log(report.date);
+    console.log("date "+report.date);
     report.user_id = 1; // TODO auth
 
     await reportMorning(report);
