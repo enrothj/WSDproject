@@ -40,26 +40,27 @@ const deleteNewsItem = async(id) => {
     the landing page of the application and provided through an API. 
  */
 
-const averageSleepDuration = async () => {
+const getAverageForUser = async (column, interval, user_id) => {
+    const result = await executeQuery("SELECT AVG($1) FROM reports WHERE entry_date >= current_date at time zone 'UTC' - interval '$2 days' AND user_id = $3;", 
+                                        column, interval, user_id);
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects();
+    }
 
+    return [];
 }
 
-const averageSleepQuality = async () => {
+const getAveragesForAll = async (column, interval) => {
+    const result = await executeQuery("SELECT AVG($1) FROM reports WHERE entry_date >= current_date at time zone 'UTC' - interval '$2 days';", 
+                                        column, interval);
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
 
-}
-
-const averageTimeSport = async () => {
-
-}
-
-const averageTimeStudy = async () => {
-
-}
-
-const averageMood = async () => {
-    
+    return {};
 }
 
 
 
 export { getAllNews, addNews, getNewsItem, deleteNewsItem };
+export { getAverageForUser, getAveragesForAll };
