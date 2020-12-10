@@ -1,4 +1,3 @@
-import { getHello } from "../../services/helloService.js";
 import * as summaryService from "../../services/summaryService.js";
 
 const hello = async({render}) => {
@@ -8,9 +7,10 @@ const hello = async({render}) => {
 
 const showWeeklyAveragesForUser = async ({render, session}) => {
 
-  const data = await summaryService.getAverageForUser("*", 7, 1); // Todo add user handling
+  const data = await summaryService.getAverageForUser("mood", 7, 1);
+  console.log(data);
 
-  render("summary_user.ejs", data);
+  render("./summarization/summary_user.ejs", {data: data});
 }
 
 
