@@ -2,8 +2,8 @@
 <body>
     <p>Choose the type of reporting you want to do.</p>
 
-    <p><input type="button" value="Morning" onclick="" > Morning reporting done for today: <%= morning_done %></p>
+    <p><input type="button" value="Morning" onclick="window.location.href='/behavior/reporting/morning'" > Morning reporting done for today: <%= morning_done %></p>
 
-    <p><input type="button" value="Evening" onclick="" > Evening reporting done for today: <%= evening_done %></p>
+    <p><input type="button" value="Evening" onclick="window.location.href='/behavior/reporting/evening'" > Evening reporting done for today: <%= evening_done %></p>
 </body>
 <%- include("../partials/footer.ejs") %>
