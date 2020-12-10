@@ -1,11 +1,11 @@
 <%- include("../partials/header.ejs") %>
 <h1>Report morning</h1>
 <body>
-    <form method="POST" action="/report/morning">
-        <input type="range" name="Mood" min=1 max=5>
-        <input type="number" name="Sleep Duration" min=1 max=5>
-        <input type="number" name="Sleep Quality" min=1 max=5>
-        <input type="date" name="Date">
+    <form method="POST" action="/behavior/reporting/morning">
+        <input type="range" name="mood" value="1" min=1 max=5>
+        <input type="number" name="sleep_duration" value="0" min=0 max=24>
+        <input type="range" name="sleep_quality" value="1" min=1 max=5>
+        <input type="date" name="date">
         <input type="submit" name="Submit Morning Report">
     </form>
 </body>

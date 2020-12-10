@@ -1,13 +1,13 @@
 <%- include("../partials/header.ejs") %>
 <h1>Report evening</h1>
 <body>
-    <form method="POST" action="/report/evening">
-        <input type="range" name="Mood" min=1 max=5>
-        <input type="number" name="Sport and Exercise" min=1 max=5>
-        <input type="number" name="Study" min=1 max=5>
-        <input type="range" name="Eating" min=1 max=5>
-        <input type="date" name="Date">
-        <input type="submit" name="Submit Morning Report">
+    <form method="POST" action="/behavior/reporting/evening">
+        <input type="range" name="mood" value="1" min=1 max=5>
+        <input type="number" name="sport" value="0" min=0 max=24>
+        <input type="number" name="study" value="0" min=0 max=24>
+        <input type="range" name="eating" value="1" min=1 max=5>
+        <input type="date" name="date">
+        <input type="submit" name="Submit Evening Report">
     </form>
 </body>
 <%- include("../partials/footer.ejs") %>

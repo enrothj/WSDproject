@@ -45,8 +45,8 @@ const reportStatus = async (user_id) => {
  * if a user skips reporting, the data can be filled in at a later point. 
  */
 const reportMorning = async (report) => {
-  const date = (report.date) ? report.date : "CURRENT_DATE";
-  await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id, date) VALUES (true, $1,$2,$3,$4,$5);", 
+  const date = (report.date) ? report.date : "now()";
+  await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id, date) VALUES (true, $1,$2,$3,$4,'$5');", 
                                     report.mood, report.sleep_duration, report.sleep_quality, report.user_id, date);
 }
 
@@ -63,9 +63,13 @@ const reportMorning = async (report) => {
  * if a user skips reporting, the data can be filled in at a later point. 
  */
 const reportEvening = async (report) => {
-  const date = (report.date) ? report.date : "CURRENT_DATE";
+  const date = (report.date) ? report.date : "now()";
+  console.log(date);
+  for (var key of Object.keys(report)) {
+    console.log(key + " -> " + report[key])
+  }
   await executeQuery("INSERT INTO reports (morning, mood, time_sport, time_study, eating, user_id, date) VALUES (false, $1,$2,$3,$4,$5,$6);",
-                                      report.mood, report.time_sport, report.time_study, report.eating, report.user_id, date);
+                                      report.mood, report.sport, report.study, report.eating, report.user_id, date);
 }
 
 
