@@ -5,14 +5,16 @@ const hello = async({render}) => {
 };
 
 
-const showWeeklyAveragesForUser = async ({render, session}) => {
+const showDefaultAveragesForUser = async ({render, session}) => {
 
-  const data = await summaryService.getAverageForUser("mood", 7, 1);
-  console.log(data);
+  const w_data = await summaryService.getLastWeekAveragesForUser(1); // todo session
+  console.log(w_data);
+  const m_data = await summaryService.getLastMonthAveragesForUser(1);
+  console.log(m_data);
 
-  render("./summarization/summary_user.ejs", {data: data});
+  render("./summarization/summary_user.ejs", {w_data: w_data, m_data: m_data});
 }
 
 
 export { hello };
-export { showWeeklyAveragesForUser };
+export { showDefaultAveragesForUser };

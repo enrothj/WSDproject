@@ -40,9 +40,7 @@ const deleteNewsItem = async(id) => {
     the landing page of the application and provided through an API. 
  */
 
-const getAverageForUser = async (column, interval, user_id) => {
-    console.log("getAverageForUser: column = "+column+", interval = "+interval);
-
+const getLastWeekAveragesForUser = async (user_id) => {
     const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE date >= \
                                 current_date - interval '7 days' AND user_id = 1;");
     
@@ -51,9 +49,29 @@ const getAverageForUser = async (column, interval, user_id) => {
     }
     
     const result = await executeQuery(
-        `SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
         AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
-        date >= current_date - interval '${interval} days' AND user_id = 1;`
+        date >= current_date - interval '7 days' AND user_id = $1;", user_id
+    );
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {};
+}
+
+const getLastMonthAveragesForUser = async (user_id) => {
+    const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE date >= \
+                                current_date - interval '30 days' AND user_id = 1;");
+    
+    if (rowsInInterval && rowsInInterval.rowCount == 0) {
+        return {};
+    }
+    
+    const result = await executeQuery(
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
+        date >= current_date - interval '30 days' AND user_id = $1;", user_id
     );
     if (result && result.rowCount > 0) {
         return result.rowsOfObjects()[0];
@@ -75,4 +93,4 @@ const getAveragesForAll = async (column, interval) => {
 
 
 export { getAllNews, addNews, getNewsItem, deleteNewsItem };
-export { getAverageForUser, getAveragesForAll };
+export { getLastWeekAveragesForUser, getLastMonthAveragesForUser, getAveragesForAll };
