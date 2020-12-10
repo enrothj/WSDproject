@@ -4,11 +4,16 @@
 This is one application that ....
 
 <h2>Summarization</h2>
-    <p>Overall mood</p>
-    <p>It is better/worse now</p>
 
-<p>Login here</p>
-Press here to go to summarization.
+    <p><% if (today.mood) {%>Average mood today is <%= today.mood %>.<% } else {%>Mood has not been reported for today.<%} %>
+        <% if (yesterday.mood) {%>Average mood yesterday was <%= yesterday.mood %>.<% } else {%>Mood was not reported for yesterday.<%} %>
+    </p>
+    <p>
+        <%if (!today.mood || !yesterday.mood) {%>The averages of today and yesterday cannot be compared.<%} else if (Number(today.mood) >= Number(yesterday.mood)) {%>Things are looking brighter today!<%} else {%>Things are looking gloomy today...<%} %>  
+    </p>
 
-Press here to go to reporting
+<p><a href="/behavior/reporting">Press here</a> to go to reporting. Login is required.</p>
+
+<p><a href="/behavior/summary">Press here</a> to go to summarization. Login is required.</p>
+
 <%- include("./partials/footer.ejs") %> 

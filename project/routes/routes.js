@@ -12,6 +12,8 @@ router.post('/behavior/reporting/morning', reportController.postMorningReport)
 router.get('/behavior/reporting/evening', reportController.getEveningReport);
 router.post('/behavior/reporting/evening', reportController.postEveningReport);
 
-router.get('/behavior/summary', summaryController.showDefaultAveragesForUser);
+router.get('/behavior/summary', summaryController.showSummaryForUser);
+
+router.get('/', summaryController.showLandingPage);
 
 export { router };

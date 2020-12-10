@@ -91,6 +91,27 @@ const getAveragesForAll = async (column, interval) => {
 }
 
 
+const getAvgMoodToday = async () => {
+    const result = await executeQuery("SELECT AVG(mood)::numeric(4,2) AS mood FROM reports WHERE date = current_date;");
+
+    if (result && result.rowCount) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {nood: 0};
+}
+
+const getAvgMoodYesterday = async () => {
+    const result = await executeQuery("SELECT AVG(mood)::numeric(4,2) AS mood FROM reports WHERE date = current_date - interval '1 days';");
+
+    if (result && result.rowCount) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {mood: 0};
+}
+
+
 
 export { getAllNews, addNews, getNewsItem, deleteNewsItem };
-export { getLastWeekAveragesForUser, getLastMonthAveragesForUser, getAveragesForAll };
+export { getLastWeekAveragesForUser, getLastMonthAveragesForUser, getAveragesForAll, getAvgMoodToday, getAvgMoodYesterday };
