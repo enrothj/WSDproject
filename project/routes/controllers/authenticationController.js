@@ -47,6 +47,15 @@ const postLogout = ({session, response}) => {
     response.body = "Successfully logged out.";
 }
 
+const validateRegistrationForm = (data) => {
+    const validationRules = {
+        email: [required, minLength(6), isEmail],
+        password: [required, minLength(6)],
+    };
+
+    return await validate(data, validationRules);
+}
+
 // Submits the registration form.
 const postRegister = async ({render, request}) => {
     const body = request.body();
@@ -56,18 +65,33 @@ const postRegister = async ({render, request}) => {
     const password = params.get('password');
     const verification = params.get('verification');
 
+    // Validate the form
+    const data = {};
+    const [passes, errors] = validateRegistrationForm({email: email, password: password});
+
+    if (!passes) {
+        data.errors = errors;
+        render("auth/register.ejs", data);
+        return;
+    }
+
     if (password !== verification) {
-        response.body = 'The entered passwords did not match'; // TODO do validation
+        data.errors.password = 'The entered passwords did not match';
+        render("auth/register.ejs", data);
         return;
     }
 
     if (await auth.emailExists(email)) {
-        response.body = "Email reserved.";
+        data.errors.email = "Email reserved.";
+        render("auth/register.ejs", data);
         return;
     }
     
+    // Register to the database
     await auth.register(email, password);
-    response.body = "Registration successful.";
+    // Display that the registration was successful (in the error partial :P)
+    data.errors.success = "Registration was successful. You may now login.";
+    render("auth/register.ejs", data);
 }
 
 export { showLogin, showLogout, showRegister, postLogin, postLogout, postRegister }
