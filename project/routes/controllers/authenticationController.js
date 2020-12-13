@@ -17,17 +17,57 @@ const showRegister = ({render}) => {
 
 // Submits the login form
 const postLogin = async ({render, request, session}) => {
+    const body = request.body();
+    const params = await body.value;
 
+    const email = params.get('email');
+    const password = params.get('password');
+
+    // Attempt to login and fetch user data
+    const userObj = await auth.login(email, password);
+    if (Object.keys(userObj).length === 0) {
+        response.status = 401;
+        return;
+    }
+
+    // Set session data
+    await session.set('authenticated', true);
+    await session.set('user', {
+        id: userObj.id,
+        email: userObj.email
+    });
+    response.body = 'Authentication successful!';
 }
 
 // Submits the logout
-const postLogout = ({request, session}) => {
-
+const postLogout = ({session, response}) => {
+    await session.set('authenticated', false);
+    await session.set('user', {});
+    response.status = 200;
+    response.body = "Successfully logged out.";
 }
 
 // Submits the registration form.
 const postRegister = async ({render, request}) => {
+    const body = request.body();
+    const params = await body.value;
+    
+    const email = params.get('email');
+    const password = params.get('password');
+    const verification = params.get('verification');
 
+    if (password !== verification) {
+        response.body = 'The entered passwords did not match'; // TODO do validation
+        return;
+    }
+
+    if (await auth.emailExists(email)) {
+        response.body = "Email reserved.";
+        return;
+    }
+    
+    await auth.register(email, password);
+    response.body = "Registration successful.";
 }
 
 export { showLogin, showLogout, showRegister, postLogin, postLogout, postRegister }
