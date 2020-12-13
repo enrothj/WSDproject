@@ -13,6 +13,8 @@ router.get('/behavior/reporting/evening', reportController.getEveningReport);
 router.post('/behavior/reporting/evening', reportController.postEveningReport);
 
 router.get('/behavior/summary', summaryController.showSummaryForUser);
+router.post('/behavior/summary/week', summaryController.showWeekSummary);
+router.post('/behavior/summary/month', summaryController.showMonthSummary);
 
 router.get('/', summaryController.showLandingPage);
 

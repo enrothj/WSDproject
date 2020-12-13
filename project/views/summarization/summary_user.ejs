@@ -18,4 +18,12 @@ Averages for the last 30 days:
     <li>Time Studying: <%= m_data.time_study %></li>
     <li>Eating Quality: <%= m_data.eating %></li>
 </ul>
+<form method="POST" action="/behavior/summary/week">
+    <input type="week" name="week">
+    <input type="submit" title="Summary for week">
+</form>
+<form method="POST" action="/behavior/summary/month">
+    <input type="month" name="month">
+    <input type="submit" title="Summary for month">
+</form>
 <%- include("../partials/footer.ejs") %> 

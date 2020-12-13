@@ -30,11 +30,12 @@ const showWeekSummary = async({render, request, session}) => {
   const params = await body.value;
 
   const user_id = 1;// TODO Add user auth
-  const week = params.get('week'); // todo check how week input works, i.e. if you have to parse it for postgresql
+  const week_input = params.get('week');
+  const week = week_input.split("W")[1]; // Gets the week number
 
   const result = await summaryService.getAveragesWeekForUser(week, user_id);
 
-  render('averages_week.ejs', {data: result, week: week, user_id: user_id});
+  render('summarization/averages_week.ejs', {data: result, week: week, user_id: user_id});
 }
 
 // Shows the averages for the requested month for the current user
@@ -43,11 +44,12 @@ const showMonthSummary = async({render, request, session}) => {
   const params = await body.value;
 
   const user_id = 1;// TODO Add user auth
-  const month = params.get('month'); // todo check how month input works
+  const month_input = params.get('month'); // todo check how month input works
+  const month = month_input.split("-")[1]; // Gets the month number
 
   const result = await summaryService.getAveragesMonthForUser(month, user_id); 
 
-  render('averages_month.ejs', {data: result, month: month, user_id: user_id});
+  render('summarization/averages_month.ejs', {data: result, month: month, user_id: user_id});
 }
 
 export { showSummaryForUser, showLandingPage, showWeekSummary, showMonthSummary };
