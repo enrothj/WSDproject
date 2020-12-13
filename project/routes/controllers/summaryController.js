@@ -24,4 +24,30 @@ const showLandingPage = async ({render}) => {
   render('landing.ejs', data);
 }
 
-export { showSummaryForUser, showLandingPage };
+// Shows the averages for the requested week for the current user
+const showWeekSummary = async({render, request, session}) => {
+  const body = request.body();
+  const params = await body.value;
+
+  const user_id = 1;// TODO Add user auth
+  const week = params.get('week'); // todo check how week input works, i.e. if you have to parse it for postgresql
+
+  const result = await summaryService.getAveragesWeekForUser(week, user_id);
+
+  render('averages_week.ejs', {data: result, week: week, user_id: user_id});
+}
+
+// Shows the averages for the requested month for the current user
+const showMonthSummary = async({render, request, session}) => {
+  const body = request.body();
+  const params = await body.value;
+
+  const user_id = 1;// TODO Add user auth
+  const month = params.get('month'); // todo check how month input works
+
+  const result = await summaryService.getAveragesMonthForUser(month, user_id); 
+
+  render('averages_month.ejs', {data: result, month: month, user_id: user_id});
+}
+
+export { showSummaryForUser, showLandingPage, showWeekSummary, showMonthSummary };

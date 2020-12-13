@@ -111,7 +111,46 @@ const getAvgMoodYesterday = async () => {
     return {mood: 0};
 }
 
+// Returns an object containing the averages for the requested week and user
+const getAveragesWeekForUser = async (week, user_id) => {
+    const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE \
+                date_part('week', date) = $1 AND user_id = $2;", week, user_id);
+    
+    if (rowsInInterval && rowsInInterval.rowCount == 0) {
+        return {};
+    }
+    const result = await executeQuery(
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
+        date_part('week', date) = $1 AND user_id = $2;", week, user_id
+    );
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
 
+    return {};
+}
+
+// Returns an object containing the averages for the requested month and user
+const getAveragesMonthForUser = async (month, user_id) => {
+    const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE \
+                date_part('month', date) = $1 AND user_id = $2;", month, user_id);
+    
+    if (rowsInInterval && rowsInInterval.rowCount == 0) {
+        return {};
+    }
+    const result = await executeQuery(
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
+        date_part('month', date) = $1 AND user_id = $2;", month, user_id
+    );
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {};
+}
 
 export { getAllNews, addNews, getNewsItem, deleteNewsItem };
 export { getLastWeekAveragesForUser, getLastMonthAveragesForUser, getAveragesForAll, getAvgMoodToday, getAvgMoodYesterday };
+export { getAveragesWeekForUser, getAveragesMonthForUser };

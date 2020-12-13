@@ -1,0 +1,11 @@
+<%- include("../partials/header.ejs") %> 
+<h1>Averages for user <%= user_id %> for month <%= month %> </h1>
+<ul>
+    <li>Mood: <%= data.mood %></li>
+    <li>Sleep Duration: <%= data.sleep_duration %></li>
+    <li>Sleep Quality: <%= data.sleep_quality %></li>
+    <li>Time Excercising: <%= data.time_sport %></li>
+    <li>Time Studying: <%= data.time_study %></li>
+    <li>Eating Quality: <%= data.eating %></li>
+</ul>
+<%- include("../partials/footer.ejs") %> 
