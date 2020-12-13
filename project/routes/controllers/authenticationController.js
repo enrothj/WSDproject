@@ -16,7 +16,7 @@ const showRegister = ({render}) => {
 }
 
 // Submits the login form
-const postLogin = async ({render, request, session}) => {
+const postLogin = async ({render, response, request, session}) => {
     const body = request.body();
     const params = await body.value;
 
@@ -26,7 +26,9 @@ const postLogin = async ({render, request, session}) => {
     // Attempt to login and fetch user data
     const userObj = await auth.login(email, password);
     if (Object.keys(userObj).length === 0) {
+        data = {errors: {login: "Login failed."}};
         response.status = 401;
+        render("auth/login.ejs", data);
         return;
     }
 
@@ -37,6 +39,8 @@ const postLogin = async ({render, request, session}) => {
         email: userObj.email
     });
     response.body = 'Authentication successful!';
+    response.status = 200;
+    response.redirect("/");
 }
 
 // Submits the logout
