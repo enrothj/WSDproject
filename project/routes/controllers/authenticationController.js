@@ -2,17 +2,17 @@ import * as auth from "../../services/authenticationService.js";
 
 // Shows the login form
 const showLogin = ({render}) => {
-    render('authentication/login.ejs');
+    render('auth/login.ejs');
 }
 
 // Shows logout functionality
 const showLogout = ({render}) => {
-    render('authentication/logout.ejs');
+    render('auth/logout.ejs');
 }
 
 // Shows the registration form
 const showRegister = ({render}) => {
-    render('authentication/register.ejs');
+    render('auth/register.ejs');
 }
 
 // Submits the login form
