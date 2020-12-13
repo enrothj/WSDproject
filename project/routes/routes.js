@@ -2,6 +2,7 @@ import { Router } from "../deps.js";
 import * as reportController from "./controllers/reportController.js";
 import * as summaryController from "./controllers/summaryController.js";
 import * as authController from "./controllers/authenticationController.js";
+import * as sumApi from "./apis/summaryApi.js";
 
 const router = new Router();
 
@@ -20,7 +21,10 @@ router.get('/auth/logout', authController.showLogout);
 router.get('/auth/registration', authController.showRegister);
 router.post('/auth/login', authController.postLogin);
 router.post('/auth/logout', authController.postLogout);
-router.post('/auth/logout', authController.postRegister);
+router.post('/auth/registration', authController.postRegister);
+
+router.get('/api/summary', sumApi.getSummary);
+router.get('/api/summary/:year/:month/:day', sumApi.getDaySummary);
 
 router.get('/', summaryController.showLandingPage);
 

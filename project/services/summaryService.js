@@ -80,6 +80,20 @@ const getLastMonthAveragesForUser = async (user_id) => {
     return {};
 }
 
+// Get summary for last week for all users.
+const getLastWeekAverages = async () => {
+    const result = await executeQuery(
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
+        date >= current_date - interval '7 days';"
+    );
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {};
+}
+
 const getAveragesForAll = async (column, interval) => {
     const result = await executeQuery("SELECT AVG($1) FROM reports WHERE date >= current_date - interval '$2 days';", 
                                         column, interval);
@@ -151,6 +165,21 @@ const getAveragesMonthForUser = async (month, user_id) => {
     return {};
 }
 
+
+const getAveragesDay = async (date) => {
+    const result = executeQuery(
+        "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
+        AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
+        date = $1;", date
+    );
+    if (result && result.rowCount > 0) {
+        return result.rowsOfObjects()[0];
+    }
+
+    return {};
+}
+
 export { getAllNews, addNews, getNewsItem, deleteNewsItem };
 export { getLastWeekAveragesForUser, getLastMonthAveragesForUser, getAveragesForAll, getAvgMoodToday, getAvgMoodYesterday };
 export { getAveragesWeekForUser, getAveragesMonthForUser };
+export { getLastWeekAverages, getAveragesDay }
