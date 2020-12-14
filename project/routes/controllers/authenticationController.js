@@ -83,8 +83,6 @@ const postRegister = async ({render, request}) => {
     const password = params.get('password');
     const verification = params.get('verification');
 
-    console.log(email+","+password+","+verification);
-
     // Validate the form
     const data = {
         email: email,
@@ -104,13 +102,13 @@ const postRegister = async ({render, request}) => {
     }
 
     if (password !== verification) {
-        data.errors.password = "The entered passwords did not match";
+        data.errors.password = {message: "The entered passwords did not match"};
         render("auth/register.ejs", data);
         return;
     }
 
     if (await auth.emailExists(email)) {
-        data.errors.email = "Email reserved.";
+        data.errors.email = {message: "Email reserved."};
         render("auth/register.ejs", data);
         return;
     }
