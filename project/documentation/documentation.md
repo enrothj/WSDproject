@@ -8,7 +8,7 @@ are the automated tests, deployment online and cross-origin requests. See remain
 for the exact list of requirements I did not complete.
 
 ## Necessary CREATE TABLE statements needed to create the database used by the application
-- Database commands are provided in the database_commands.md file (/documentation/database_commands.md)
+- Database commands are provided in the database_commands.txt file (/documentation/database_commands.txt)
 - They were run in order using ElephantSQL browser
 - There are two databases:
     - users: contains the user emails and passwords
@@ -18,7 +18,7 @@ for the exact list of requirements I did not complete.
 ## Guidelines for running the application
 - In these instructions, I presume the user knows how to create a PostgreSQL database 
 - Create the database in a location of your choosing (e.g. ElephantSQL), and run the database creation
-commands in order. They are contained in "/documents/database_commands.md".
+commands in order. They are contained in "/documents/database_commands.txt".
 - The connection pool uses environment variables, so you need to set them according to the 
 credentials of the database you just created:
     - PGHOST        (hostname)
