@@ -167,7 +167,7 @@ const getAveragesMonthForUser = async (month, user_id) => {
 
 
 const getAveragesDay = async (date) => {
-    const result = executeQuery(
+    const result = await executeQuery(
         "SELECT AVG(mood)::numeric(10,2) AS mood, AVG(sleep_duration)::numeric(10,2) AS sleep_duration, AVG(sleep_quality)::numeric(10,2) AS sleep_quality, \
         AVG(time_sport)::numeric(10,2) AS time_sport, AVG(time_study)::numeric(10,2) AS time_study, AVG(eating)::numeric(10,2) AS eating FROM reports WHERE \
         date = $1;", date
