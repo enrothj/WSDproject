@@ -2,7 +2,7 @@
 import { validate, required, isNumeric, numberBetween, isDate } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 import { getAllReports, getReport, reportStatus} from "../../services/reportService.js";
 import { reportMorning, reportEvening } from "../../services/reportService.js";
-import { getUserId } from "../../services/authenticationService.js";
+import { getUserId, authenticationStatus } from "../../services/authenticationService.js";
 
 const getNews = async({render}) => {
     render('index.ejs', { news: await getAllNews() } );
@@ -13,8 +13,6 @@ const getItem = async({params, render}) => {
     console.log(content);
     render('news-item.ejs', content);
 }
-
-
 
 const getMorningReport = async({render}) => {
     const date = new Date();
@@ -47,8 +45,11 @@ const getEveningReport = async({render}) => {
 
 // On report choosing page, show report completion status for the day
 const getReporting = async ({render, session}) => {
-    // TODO: get user_id from session
-    render ('./reporting/report_choose.ejs', await reportStatus(1));
+    const user_id = await getUserId(session);
+    const data = await reportStatus(user_id);
+    data.authStatus = await authenticationStatus(session);
+
+    render ('./reporting/report_choose.ejs', data);
 }
 
 // Renders report.ejs with the matching params
@@ -73,7 +74,7 @@ const validateMorningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
-const postMorningReport = async ({request, session, render}) => {
+const postMorningReport = async ({request, session, render, response}) => {
     const body = request.body();
     const params = await body.value;
 
@@ -100,6 +101,7 @@ const postMorningReport = async ({request, session, render}) => {
     data.success = "Successfully submitted morning report."
 
     render('./reporting/report_morning.ejs', data);
+    response.redirect("/behavior/reporting");
 }
 
 // Validation for the evening report form data
@@ -115,7 +117,7 @@ const validateEveningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
-const postEveningReport = async ({request, session, render}) => {
+const postEveningReport = async ({request, session, render, response}) => {
     const body = request.body();
     const params = await body.value;
 
@@ -142,6 +144,7 @@ const postEveningReport = async ({request, session, render}) => {
     await reportEvening(data);
 
     render('./reporting/report_evening.ejs', data);
+    response.redirect("/behavior/reporting");
 }
 
 export { getNews, getItem };
