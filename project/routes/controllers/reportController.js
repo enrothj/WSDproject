@@ -109,7 +109,7 @@ const validateEveningForm = async (data) => {
     const validationRules = {
         mood: [required, isNumeric, numberBetween(1, 5)],
         sport: [required, isNumeric, numberBetween(0, 24)],
-        study: [required, isNumeric, numberBetween(1, 5)],
+        study: [required, isNumeric, numberBetween(0, 24)],
         eating: [required, isNumeric, numberBetween(1,5)],
         date: [required, isDate],
     };
