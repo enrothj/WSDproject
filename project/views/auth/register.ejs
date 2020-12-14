@@ -1,11 +1,15 @@
 <%- include("../partials/header.ejs") %>
 <h1>Register</h1>
 <%- include("../partials/error.ejs") %>
-<%- include("../partials/success.ejs") %> 
+<%- include("../partials/success.ejs") %>
+<p>Register by providing a new email address (at least 6 characters) and password (at least 4 characters). You must type the password twice.</p>
 <form method="POST" action="/auth/registration">
-    <input type="email" name="email" value="<%= email %>" minlength="6" required/>
-    <input type="password" name="password" minlength="4" required/>
-    <input type="password" name="verification" minlength="4" required/>
+    <label for="email">Enter an email address:</label>
+    <input type="email" name="email" id="email" value="<%= email %>" minlength="6" required/><br>
+    <label for="password">Enter a password:</label>
+    <input type="password" name="password" id="password" minlength="4" required/><br>
+    <label for="verification">Retype the password:</label>
+    <input type="password" name="verification" id="verification" minlength="4" required/><br>
     <input type="submit" value="Submit!" />
 </form>
 <%- include("../partials/footer.ejs") %> 

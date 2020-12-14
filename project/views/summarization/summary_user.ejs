@@ -19,12 +19,17 @@ Averages for the last 30 days:
     <li>Time Studying: <%= m_data.time_study %></li>
     <li>Eating Quality: <%= m_data.eating %></li>
 </ul>
+<p>You may also request a summary for a specific week or month. Note that they may lack any report data.</p>
+<p>Request a summary for a week:</p><br>
 <form method="POST" action="/behavior/summary/week">
-    <input type="week" name="week">
+    <label for="week">Choose a week:</label>
+    <input type="week" name="week" id="week" required />
     <input type="submit" title="Summary for week">
 </form>
+<p>Request a summary for a month:</p><br>
 <form method="POST" action="/behavior/summary/month">
-    <input type="month" name="month">
+    <label for="month">Choose a month:</label>
+    <input type="month" name="month" id="month" required />
     <input type="submit" title="Summary for month">
 </form>
 <p><a href="/">Press here</a> to return to the landing page.</p>

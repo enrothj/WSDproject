@@ -2,9 +2,12 @@
 <%- include("./partials/auth.ejs") %> 
 <h1>Landing page title</h1>
 
-This is one application that ....
+<p>
+    This is a web application for self-monitoring purposes. It provides users an opportunity to report behavior daily. 
+    Upon registration you can report 
+</p>
 
-<h2>Summarization</h2>
+<h2>Summary for all users</h2>
 
     <p><% if (today.mood) {%>Average mood today is <%= today.mood %>.<% } else {%>Mood has not been reported for today.<%} %>
         <% if (yesterday.mood) {%>Average mood yesterday was <%= yesterday.mood %>.<% } else {%>Mood was not reported for yesterday.<%} %>
@@ -13,14 +16,16 @@ This is one application that ....
         <%if (!today.mood || !yesterday.mood) {%>The averages of today and yesterday cannot be compared.<%} else if (Number(today.mood) >= Number(yesterday.mood)) {%>Things are looking brighter today!<%} else {%>Things are looking gloomy today...<%} %>  
     </p>
 
-<p><a href="/behavior/reporting">Press here</a> to go to reporting. Login is required.</p>
+<h2>User functionality</h2>
 
-<p><a href="/behavior/summary">Press here</a> to go to summarization. Login is required.</p>
+<p><a href="/behavior/reporting">Press here</a> to go to reporting. <i>Login is required.</i></p>
+
+<p><a href="/behavior/summary">Press here</a> to go to summarization. <i>Login is required.</i></p>
 
 <p><a href="/auth/login">Press here</a> to go to login.</p>
 
 <p><a href="/auth/registration">Press here</a> to go to registration.</p>
 
-<p><a href="/auth/logout">Press here</a> to go to go to logout.</p>
+<p><a href="/auth/logout">Press here</a> to go to logout.</p>
 
 <%- include("./partials/footer.ejs") %> 

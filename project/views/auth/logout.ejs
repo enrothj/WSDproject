@@ -1,7 +1,9 @@
 <%- include("../partials/header.ejs") %>
 <%- include("../partials/auth.ejs") %>
 <h1>Logout</h1>
+<p>You may logout here.</p>
 <form method="POST" action="/auth/logout">
-    <input type="submit" name="logout" title="Logout!">
+    <label for="logout">Press here to log out.</label>
+    <input type="submit" id="logout" name="logout" title="Logout!">
 </form>
 <%- include("../partials/footer.ejs") %> 

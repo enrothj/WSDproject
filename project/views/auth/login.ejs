@@ -1,9 +1,12 @@
 <%- include("../partials/header.ejs") %> 
 <%- include("../partials/error.ejs") %> 
 <h1>Login</h1>
+<p>Enter your email address and password to login.</p>
 <form method="POST" action="/auth/login">
-    <input type="email" name="email" />
-    <input type="password" name="password" />
+    <label for="email">Email address:</label>
+    <input type="email" id="email" name="email" /><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" /><br>
     <input type="submit" value="Login!" />
 </form>
 <p>If you are not registered yet, <a href="/auth/registration">press here</a> to go to registration.</p>

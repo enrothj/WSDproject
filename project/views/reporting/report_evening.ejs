@@ -3,14 +3,26 @@
 <%- include("../partials/error.ejs") %>
 <%- include("../partials/success.ejs") %> 
 <body>
+    <ul>
+        <li>Mood on a scale from 1 to 5, where 1 indicates very poor and 5 indicates excellent.</li>
+        <li>Amount of time spent on sport and excercise in hours.</li>
+        <li>Amount of time spent studying in hours.</li>
+        <li>Regularity and quality of eating on a scale from 1 to 5, where 1 indicates very poor and 5 indicates excellent.</li>
+        <li>The date you want to report on. If you submit a report on a day that already has an evening report, the prior will be overwritten.</li>
+    </ul>
     <form method="POST" action="/behavior/reporting/evening">
-        <input type="range" name="mood" value="<%= mood %>" min=1 max=5>
-        <input type="number" name="sport" value="<%= sport %>" min=0 max=24>
-        <input type="number" name="study" value="<%= study %>" min=0 max=24>
-        <input type="range" name="eating" value="<%= eating %>" min=1 max=5>
-        <input type="date" name="date" value="<%= date %>">
+        <label for="mood">Mood from 1 to 5:</label>
+        <input type="range" name="mood" id="mood" value="<%= mood %>" min=1 max=5 required /><br>
+        <label for="sport">Hours spent on sports:</label>
+        <input type="number" name="sport" id="sport" value="<%= sport %>" min=0 max=24 required /><br>
+        <label for="study">Hours spent on study:</label>
+        <input type="number" name="study" id="study" value="<%= study %>" min=0 max=24 required /><br>
+        <label for="eating">Eating quality from 1 to 5:</label>
+        <input type="range" name="eating" id="eating" value="<%= eating %>" min=1 max=5 required /><br>
+        <label for="date">Date to report on:</label>
+        <input type="date" name="date" id="date" value="<%= date %>" required /><br>
         <input type="submit" name="Submit Evening Report">
     </form>
 </body>
-<p><a href="/behavior/reporting">Press here</a> to return to the reporting page.</p>
+<p><a href="/behavior/reporting">Press here</a> to return to the general reporting page.</p>
 <%- include("../partials/footer.ejs") %>

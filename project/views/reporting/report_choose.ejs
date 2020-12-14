@@ -3,9 +3,15 @@
 <body>
     <p>Choose the type of reporting you want to do.</p>
 
-    <p><input type="button" value="Morning" onclick="window.location.href='/behavior/reporting/morning'" > Morning reporting done for today: <%= morning_done %></p>
+    <p>
+        <label for="morning">Press here to do a morning report:</label>
+        <input type="button" value="Morning" id="morning" onclick="window.location.href='/behavior/reporting/morning'" > Morning reporting done for today: <%= morning_done %>
+    </p>
 
-    <p><input type="button" value="Evening" onclick="window.location.href='/behavior/reporting/evening'" > Evening reporting done for today: <%= evening_done %></p>
+    <p>
+        <label for="evening">Press here to do an evening report.</label>
+        <input type="button" value="Evening" id="evening" onclick="window.location.href='/behavior/reporting/evening'" > Evening reporting done for today: <%= evening_done %>
+    </p>
 </body>
 <p><a href="/">Press here</a> to return to the landing page.</p>
 <%- include("../partials/footer.ejs") %>

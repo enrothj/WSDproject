@@ -3,13 +3,23 @@
 <%- include("../partials/error.ejs") %>
 <%- include("../partials/success.ejs") %> 
 <body>
+    <ul>
+        <li>Mood on a scale from 1 to 5, where 1 indicates very poor and 5 indicates excellent.</li>
+        <li>Amount of time spent sleeping in hours.</li>
+        <li>Quality of sleep on a scale from 1 to 5, where 1 indicates very poor and 5 indicates excellent.</li>
+        <li>The date you want to report on. If you submit a report on a day that already has an evening report, the prior will be overwritten.</li>
+    </ul>
     <form method="POST" action="/behavior/reporting/morning">
-        <input type="range" name="mood" value="<%= mood %>" min=1 max=5>
-        <input type="number" name="sleep_duration" value="<%= sleep_duration %>" min=0 max=24>
-        <input type="range" name="sleep_quality" value="<%= sleep_quality %>" min=1 max=5>
-        <input type="date" name="date" value="<%= date %>">
-        <input type="submit" name="Submit Morning Report">
+        <label for="mood">Mood from 1 to 5:</label>
+        <input type="range" name="mood" id="mood" value="<%= mood %>" min=1 max=5 required /><br>
+        <label for="duration">Hours spent on sleep:</label>
+        <input type="number" name="sleep_duration" id="duration" value="<%= sleep_duration %>" min=0 max=24 required /><br>
+        <label for="quality">Sleep quality from 1 to 5:</label>
+        <input type="range" name="sleep_quality" id="quality" value="<%= sleep_quality %>" min=1 max=5 required /><br>
+        <label for="date">Date to report on:</label>
+        <input type="date" name="date" id="date" value="<%= date %>" required /><br>
+        <input type="submit" name="Submit Morning Report"><br>
     </form>
 </body>
-<p><a href="/behavior/reporting">Press here</a> to return to the reporting page.</p>
+<p><a href="/behavior/reporting">Press here</a> to return to the general reporting page.</p>
 <%- include("../partials/footer.ejs") %>
