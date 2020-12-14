@@ -33,6 +33,14 @@ const reportStatus = async (user_id) => {
   return {morning_done: morning, evening_done: evening};
 }
 
+// If there is a report of the same type for the same day by the same user, delete it.
+const deleteDuplicateReport = async (morning, date, user_id) => {
+  const result = await executeQuery("SELECT id AS report_id FROM reports WHERE morning=$1 AND date=$2 AND user_id=$3", morning, date, user_id);
+  if (result && result.rowCount > 0) {
+    const report_id = result.rowsOfObjects()[0].report_id;
+    await executeQuery("DELETE FROM reports WHERE id=$1", report_id);
+  }
+}
 
 /**
  * the application asks for the sleep duration and sleep quality, as well as generic mood. 
@@ -45,11 +53,17 @@ const reportStatus = async (user_id) => {
  * if a user skips reporting, the data can be filled in at a later point. 
  */
 const reportMorning = async (report) => {
+  // Get date or default to today
   const date = (report.date) ? report.date : "now()";
+  
   console.log(date);
   for (var key of Object.keys(report)) {
     console.log(key + " -> " + report[key])
   }
+
+  // Delete possible duplicate report
+  await deleteDuplicateReport(true, date, report.user_id);
+
   await executeQuery("INSERT INTO reports (morning, mood, sleep_duration, sleep_quality, user_id, date) VALUES (true, $1,$2,$3,$4,$5);", 
                                     report.mood, report.sleep_duration, report.sleep_quality, report.user_id, date);
 }
@@ -67,11 +81,17 @@ const reportMorning = async (report) => {
  * if a user skips reporting, the data can be filled in at a later point. 
  */
 const reportEvening = async (report) => {
+  // Get date or default to today
   const date = (report.date) ? report.date : "now()";
+
   console.log(date);
   for (var key of Object.keys(report)) {
     console.log(key + " -> " + report[key])
   }
+
+  // Delete possible duplicate report
+  await deleteDuplicateReport(false, date, report.user_id);
+
   await executeQuery("INSERT INTO reports (morning, mood, time_sport, time_study, eating, user_id, date) VALUES (false, $1,$2,$3,$4,$5,$6);",
                                       report.mood, report.sport, report.study, report.eating, report.user_id, date);
 }
