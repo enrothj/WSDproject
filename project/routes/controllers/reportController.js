@@ -2,6 +2,7 @@
 import { validate, required, isNumeric, numberBetween, isDate } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 import { getAllReports, getReport, reportStatus} from "../../services/reportService.js";
 import { reportMorning, reportEvening } from "../../services/reportService.js";
+import { getUserId } from "../../services/authenticationService.js";
 
 const getNews = async({render}) => {
     render('index.ejs', { news: await getAllNews() } );
@@ -72,7 +73,7 @@ const validateMorningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
-const postMorningReport = async ({request, render}) => {
+const postMorningReport = async ({request, session, render}) => {
     const body = request.body();
     const params = await body.value;
 
@@ -81,7 +82,7 @@ const postMorningReport = async ({request, render}) => {
         sleep_duration: Number(params.get('sleep_duration')),
         sleep_quality: Number(params.get('sleep_quality')),
         date: params.get('date'),
-        user_id: 1, // TODO auth
+        user_id: await getUserId(session),
         errors: [],
         success: "",
     };
@@ -114,7 +115,7 @@ const validateEveningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
-const postEveningReport = async ({request, render}) => {
+const postEveningReport = async ({request, session, render}) => {
     const body = request.body();
     const params = await body.value;
 
@@ -124,7 +125,7 @@ const postEveningReport = async ({request, render}) => {
         study: Number(params.get('study')),
         eating: Number(params.get('eating')),
         date: params.get('date'),
-        user_id: 1, // TODO auth
+        user_id: await getUserId(session), // TODO auth
         errors: [],
         success: "",
     };

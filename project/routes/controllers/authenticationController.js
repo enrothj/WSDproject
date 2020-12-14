@@ -12,7 +12,7 @@ const showLogin = ({render}) => {
 // Shows logout functionality
 const showLogout = async ({session, render}) => {
     const data = {
-        authStatus: await auth.authenticationStatus({session}),
+        authStatus: await auth.authenticationStatus(session),
     };
     render('auth/logout.ejs', data);
 }

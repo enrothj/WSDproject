@@ -1,14 +1,20 @@
 import { executeQuery } from "../database/database.js";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
-
-const authenticationStatus = async ({session}) => {
+// Returns a text telling if the user is logged in.
+const authenticationStatus = async (session) => {
     if (await session.get('authenticated')) {
 
         return `You are logged in as ${(await session.get('user')).email}`;
     } else {
         return "You are not logged in."
     }
+}
+
+// Returns the id of the user from the session data.
+const getUserId = async (session) => {
+    const userObj = await session.get('user');
+    return userObj.id;
 }
 
 const emailExists = async (email) => {
@@ -44,4 +50,4 @@ const login = async (email, password) => {
     return userObj;
 }
 
-export { authenticationStatus, emailExists, login, register }
+export { authenticationStatus, getUserId, emailExists, login, register }
