@@ -24,9 +24,9 @@ const showSummaryForUser = async ({render, session}) => {
   }
 
   if (Object.keys(m_data).length === 0) {
-    data.w_dataFound = false;
+    data.m_dataFound = false;
   } else {
-    data.w_dataFound = true;
+    data.m_dataFound = true;
   }
 
   render("./summarization/summary_user.ejs", data);
