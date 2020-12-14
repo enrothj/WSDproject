@@ -12,7 +12,8 @@ const emailExists = async (email) => {
 }
 
 const register = async (email, password) => {
-    const hash = bcrypt.hash(password);
+    const hash = await bcrypt.hash(password);
+    console.log(hash);
     await executeQuery("INSERT INTO users (email, password) VALUES ($1, $2)", email, hash);
 }
 
