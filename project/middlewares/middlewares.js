@@ -10,7 +10,7 @@ const errorMiddleware = async(context, next) => {
 }
 
 const authMiddleware = async({request, response, session}, next) => {
-  if (request.url.pathname.includes('/behavior') && !(await session.get('authenticated'))) {
+  if ( !( request.url.pathname.includes('/api/') || request.url.pathname.includes('/auth/') || request.url.pathname === '/') && !(await session.get('authenticated'))) {
     response.redirect('/auth/login');
   } else {
     await next();
