@@ -17,11 +17,17 @@ const authMiddleware = async({request, response, session}, next) => {
   }
 };
 
-const requestTimingMiddleware = async({ request }, next) => {
-  const start = Date.now();
+const requestLoggingMiddleware = async({ request, session }, next) => {
+  const date = new Date();
   await next();
-  const ms = Date.now() - start;
-  console.log(`${request.method} ${request.url.pathname} - ${ms} ms`);
+  const userObj = await session.get('user');
+  let user;
+  if (userObj) {
+    user = userObj.id;
+  } else {
+    user = "anonymous";
+  }
+  console.log(`${date.toTimeString()}: ${request.method} ${request.url.pathname} - user ${user}`);
 }
 
 const serveStaticFilesMiddleware = async(context, next) => {
@@ -37,4 +43,4 @@ const serveStaticFilesMiddleware = async(context, next) => {
   }
 }
 
-export { errorMiddleware, requestTimingMiddleware, serveStaticFilesMiddleware, authMiddleware };
+export { errorMiddleware, requestLoggingMiddleware, serveStaticFilesMiddleware, authMiddleware };

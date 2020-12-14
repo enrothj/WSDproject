@@ -20,7 +20,7 @@ app.use(session.use()(session));
 
 app.use(middleware.errorMiddleware);
 app.use(middleware.authMiddleware);
-app.use(middleware.requestTimingMiddleware);
+app.use(middleware.requestLoggingMiddleware);
 app.use(middleware.serveStaticFilesMiddleware);
 
 app.use(router.routes());
