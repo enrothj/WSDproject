@@ -1,15 +1,17 @@
 <%- include("../partials/header.ejs") %>
 <body>
-    <p>Choose the type of reporting you want to do.</p>
+    <h2>Choose the type of reporting you want to do.</h2>
 
     <p>
-        <label for="morning">Press here to do a morning report:</label>
-        <input type="button" value="Morning" id="morning" onclick="window.location.href='/behavior/reporting/morning'" > Morning reporting done for today: <%= morning_done %>
+        <label for="morning"><strong>Press here to do a morning report:</strong></label>
+        <input type="button" value="Morning" id="morning" onclick="window.location.href='/behavior/reporting/morning'" ><br>
+        Morning reporting done for today: <strong><%= morning_done %></strong>
     </p>
 
     <p>
-        <label for="evening">Press here to do an evening report.</label>
-        <input type="button" value="Evening" id="evening" onclick="window.location.href='/behavior/reporting/evening'" > Evening reporting done for today: <%= evening_done %>
+        <label for="evening"><strong>Press here to do an evening report.</strong></label>
+        <input type="button" value="Evening" id="evening" onclick="window.location.href='/behavior/reporting/evening'" ><br>
+        Evening reporting done for today: <strong><%= evening_done %></strong>
     </p>
 </body>
 <p><a href="/">Press here</a> to return to the landing page.</p>
