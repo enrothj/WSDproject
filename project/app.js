@@ -19,7 +19,7 @@ await session.init();
 app.use(session.use()(session));
 
 app.use(middleware.errorMiddleware);
-//app.use(middleware.authMiddleware);
+app.use(middleware.authMiddleware);
 app.use(middleware.requestTimingMiddleware);
 app.use(middleware.serveStaticFilesMiddleware);
 
