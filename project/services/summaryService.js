@@ -42,7 +42,7 @@ const deleteNewsItem = async(id) => {
 
 const getLastWeekAveragesForUser = async (user_id) => {
     const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE date >= \
-                                current_date - interval '7 days' AND user_id = 1;");
+                                current_date - interval '7 days' AND user_id = $1;", user_id);
     
     if (rowsInInterval && rowsInInterval.rowCount == 0) {
         return {};
@@ -62,7 +62,7 @@ const getLastWeekAveragesForUser = async (user_id) => {
 
 const getLastMonthAveragesForUser = async (user_id) => {
     const rowsInInterval = await executeQuery("SELECT * FROM reports WHERE date >= \
-                                current_date - interval '30 days' AND user_id = 1;");
+                                current_date - interval '30 days' AND user_id = $1;", user_id);
     
     if (rowsInInterval && rowsInInterval.rowCount == 0) {
         return {};
