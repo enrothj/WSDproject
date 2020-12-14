@@ -2,6 +2,15 @@ import { executeQuery } from "../database/database.js";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 
 
+const authenticationStatus = async ({session}) => {
+    if (await session.get('authenticated')) {
+
+        return `You are logged in as ${(await session.get('user')).email}`;
+    } else {
+        return "You are not logged in."
+    }
+}
+
 const emailExists = async (email) => {
     const result = await executeQuery("SELECT * FROM users WHERE email = $1;", email)
     if (result.rowCount === 0) {
@@ -35,4 +44,4 @@ const login = async (email, password) => {
     return userObj;
 }
 
-export { emailExists, login, register }
+export { authenticationStatus, emailExists, login, register }

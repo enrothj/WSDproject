@@ -1,4 +1,5 @@
 import * as summaryService from "../../services/summaryService.js";
+import { authenticationStatus } from "../../services/authenticationService.js";
 
 // Shows a user's summary page
 const showSummaryForUser = async ({render, session}) => {
@@ -13,12 +14,13 @@ const showSummaryForUser = async ({render, session}) => {
 
 
 // Shows the landing page. Data to be rendered is the mood averages for today and yesterday.
-const showLandingPage = async ({render}) => {
+const showLandingPage = async ({session, render}) => {
   const data = {};
   // Get today's average mood
   data.today = await summaryService.getAvgMoodToday();
   // Get yesterday's average mood
   data.yesterday = await summaryService.getAvgMoodYesterday();
+  data.authStatus = await authenticationStatus({session});
   console.log(data);
 
   render('landing.ejs', data);
