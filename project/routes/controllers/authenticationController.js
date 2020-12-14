@@ -10,8 +10,11 @@ const showLogin = ({render}) => {
 }
 
 // Shows logout functionality
-const showLogout = ({render}) => {
-    render('auth/logout.ejs');
+const showLogout = async ({session, render}) => {
+    const data = {
+        authStatus: await auth.authenticationStatus({session}),
+    };
+    render('auth/logout.ejs', data);
 }
 
 // Shows the registration form
@@ -59,6 +62,7 @@ const postLogout = async ({session, response}) => {
     await session.set('user', {});
     response.status = 200;
     response.body = "Successfully logged out.";
+    response.redirect('/');
 }
 
 const validateRegistrationForm = async (data) => {
