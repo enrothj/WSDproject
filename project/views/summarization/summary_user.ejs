@@ -31,11 +31,13 @@ Averages for the last 30 days:
     <input type="week" name="week" id="week" required />
     <input type="submit" title="Summary for week">
 </form>
-<p>Request a summary for a month:</p><br>
+</p>
+<p>Request a summary for a month:<br>
 <form method="POST" action="/behavior/summary/month">
     <label for="month">Choose a month:</label>
     <input type="month" name="month" id="month" required />
     <input type="submit" title="Summary for month">
 </form>
+</p>
 <p><a href="/">Press here</a> to return to the landing page.</p>
 <%- include("../partials/footer.ejs") %> 

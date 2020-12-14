@@ -1,10 +1,9 @@
-//import { getAllNews, getNewsItem } from "../../services/newsService.js";
-import { validate, required, isNumeric, numberBetween, isDate } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
-import { getAllReports, getReport, reportStatus} from "../../services/reportService.js";
+import { validate, required, isNumeric, numberBetween, isDate } from "../../deps.js";
+import { reportStatus} from "../../services/reportService.js";
 import { reportMorning, reportEvening } from "../../services/reportService.js";
 import { getUserId, authenticationStatus } from "../../services/authenticationService.js";
 
-
+// Shows the morning report form
 const getMorningReport = async({render, session}) => {
     const date = new Date();
     const today = date.toJSON().split('T')[0];
@@ -20,6 +19,7 @@ const getMorningReport = async({render, session}) => {
     render('./reporting/report_morning.ejs', data);
 }
 
+// Shows the evening report form
 const getEveningReport = async({render, session}) => {
     const date = new Date();
     const today = date.toJSON().split('T')[0];
@@ -57,6 +57,7 @@ const validateMorningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
+// Try to post the form data of the morning report. Handles validation
 const postMorningReport = async ({request, session, render, response}) => {
     const body = request.body();
     const params = await body.value;
@@ -101,6 +102,7 @@ const validateEveningForm = async (data) => {
     return await validate(data, validationRules);
 }
 
+// Try to post the form for the evening report. Handles validation
 const postEveningReport = async ({request, session, render, response}) => {
     const body = request.body();
     const params = await body.value;

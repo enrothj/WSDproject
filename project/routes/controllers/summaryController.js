@@ -1,14 +1,13 @@
 import * as summaryService from "../../services/summaryService.js";
 import { authenticationStatus, getUserId } from "../../services/authenticationService.js";
 
-// Shows a user's summary page
+// Shows a user's summary page. Shows summaries for last week and month.
+// Also options for specific weeks or months.
 const showSummaryForUser = async ({render, session}) => {
 
   const user_id = await getUserId(session);
   const w_data = await summaryService.getLastWeekAveragesForUser(user_id);
-  console.log(w_data);
   const m_data = await summaryService.getLastMonthAveragesForUser(user_id);
-  console.log(m_data);
   const status = await authenticationStatus(session);
 
   const data = {

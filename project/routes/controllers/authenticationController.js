@@ -1,4 +1,4 @@
-import { validate, required, minLength, isEmail } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
+import { validate, required, minLength, isEmail } from "../../deps.js";
 import * as auth from "../../services/authenticationService.js";
 
 // Shows the login form
@@ -29,7 +29,8 @@ const showRegister = async ({render, session}) => {
     render('auth/register.ejs', data);
 }
 
-// Submits the login form
+// Submits the login form. There is validation, but fields are not populated.
+// Redirects to landing page on success
 const postLogin = async ({render, response, request, session}) => {
     const body = request.body();
     const params = await body.value;
@@ -61,7 +62,7 @@ const postLogin = async ({render, response, request, session}) => {
     response.redirect("/");
 }
 
-// Submits the logout
+// Submits the logout and redirects to landing page
 const postLogout = async ({session, response}) => {
     await session.set('authenticated', false);
     await session.set('user', {});
@@ -70,6 +71,7 @@ const postLogout = async ({session, response}) => {
     response.redirect('/');
 }
 
+// Validates registration form data
 const validateRegistrationForm = async (data) => {
     const validationRules = {
         email: [required, minLength(6), isEmail],

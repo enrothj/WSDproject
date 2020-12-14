@@ -1,7 +1,7 @@
 import { executeQuery } from "../database/database.js";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+import * as bcrypt from "../deps.js";
 
-// Returns a text telling if the user is logged in.
+// Returns a text telling if the user is logged in. Shown in the header
 const authenticationStatus = async (session) => {
     if (await session.get('authenticated')) {
 
@@ -17,6 +17,7 @@ const getUserId = async (session) => {
     return userObj.id;
 }
 
+// Checks if the given email already exists in the database
 const emailExists = async (email) => {
     const result = await executeQuery("SELECT * FROM users WHERE email = $1;", email)
     if (result.rowCount === 0) {
@@ -26,9 +27,9 @@ const emailExists = async (email) => {
     }
 }
 
+// Registers the user with the given email and (hashed) password
 const register = async (email, password) => {
     const hash = await bcrypt.hash(password);
-    console.log(hash);
     await executeQuery("INSERT INTO users (email, password) VALUES ($1, $2)", email, hash);
 }
 

@@ -1,9 +1,18 @@
 <%- include("./partials/header.ejs") %>
-<h1>Landing page title</h1>
+<h1>Welcome to the self-monitoring application!</h1>
 
 <p>
-    This is a web application for self-monitoring purposes. It provides users an opportunity to report behavior daily. 
-    Upon registration you can report 
+    This is a web application for self-monitoring purposes. It provides registered users an opportunity to report their daily behavior.
+    The application tracks the time the users spend on sleep, sport and study, as well as the quality of their eating, sleep
+    and mood, depening on the time of reporting. The user can track the averages of these statistics on the summary page.
+
+    Upon registration you can do two kinds of reports: morning and evening. Morning reports are focused on sleep and mood, while evening 
+    reports track daily activities affecting their health. On the summary page you can see these report statistics summarized as averages 
+    for different time periods. The user can see the summaries for the last 7 or 30 days, or alternatively request specific weeks or months.
+
+    Even if you are not registered, you may request summaries on all users overall. These requests may be made through our API on the paths
+    <a href="/api/summary">/api/summary</a> or /api/summary/#year/#month/day. Below you can also see the average moods of our users for the last 
+    two days!
 </p>
 
 <h2>Summary for all users</h2>

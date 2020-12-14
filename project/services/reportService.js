@@ -1,19 +1,6 @@
 import { executeQuery } from "../database/database.js";
 
-const getHello = async() => {
-  const res = await executeQuery("SELECT message FROM messages ORDER BY id DESC LIMIT 1");
-  if (res && res.rowCount > 0) {
-    return res.rowsOfObjects()[0].message;
-  }
-
-  return 'No messages available';
-}
-
-const setHello = async(newMessage) => {
-  await executeQuery("INSERT INTO messages (message, sender) VALUES ($1, 'API');", newMessage);
-}
-
-// Returns the status of reporting done on that day TODO: add date parameter
+// Returns the status of reporting done on that day, i.e. if the user has done the reports for that day
 const reportStatus = async (user_id) => {
   const today = new Date();
   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -55,12 +42,6 @@ const deleteDuplicateReport = async (morning, date, user_id) => {
 const reportMorning = async (report) => {
   // Get date or default to today
   const date = (report.date) ? report.date : "now()";
-  
-  console.log(date);
-  for (var key of Object.keys(report)) {
-    console.log(key + " -> " + report[key])
-  }
-
   // Delete possible duplicate report
   await deleteDuplicateReport(true, date, report.user_id);
 
@@ -83,12 +64,6 @@ const reportMorning = async (report) => {
 const reportEvening = async (report) => {
   // Get date or default to today
   const date = (report.date) ? report.date : "now()";
-
-  console.log(date);
-  for (var key of Object.keys(report)) {
-    console.log(key + " -> " + report[key])
-  }
-
   // Delete possible duplicate report
   await deleteDuplicateReport(false, date, report.user_id);
 
@@ -96,24 +71,4 @@ const reportEvening = async (report) => {
                                       report.mood, report.sport, report.study, report.eating, report.user_id, date);
 }
 
-
-const getAllReports = async () => {
-  const user_id = 1; // TODO: add auth etc.
-  const results = await executeQuery("SELECT * FROM reports WHERE user_id = $1;", user_id);
-  if (results && results.rowCount > 0) {
-    return results.rowsOfObjects;
-  }
-  return [];
-}
-
-
-const getReport = async (id) => {
-  const result = await executeQuery("SELECT * FROM reports WHERE id = $1", id);
-  if (result && result.rowsOfObjects > 0) {
-    return result.rowsOfObjects[0];
-  }
-  return {};
-}
-
-
-export { reportMorning, reportEvening, getAllReports, getReport, reportStatus };
+export { reportMorning, reportEvening, reportStatus };
