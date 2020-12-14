@@ -3,7 +3,10 @@ import * as auth from "../../services/authenticationService.js";
 
 // Shows the login form
 const showLogin = ({render}) => {
-    render('auth/login.ejs');
+    const data = {
+        errors: {},
+    };
+    render('auth/login.ejs', data);
 }
 
 // Shows logout functionality
@@ -31,8 +34,9 @@ const postLogin = async ({render, response, request, session}) => {
 
     // Attempt to login and fetch user data
     const userObj = await auth.login(email, password);
+    // If no user was found, return the error message
     if (Object.keys(userObj).length === 0) {
-        data = {errors: {login: "Login failed."}};
+        const data = {errors: {login: {message: "Login failed."}}};
         response.status = 401;
         render("auth/login.ejs", data);
         return;

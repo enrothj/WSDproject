@@ -17,12 +17,12 @@ const register = async (email, password) => {
     await executeQuery("INSERT INTO users (email, password) VALUES ($1, $2)", email, hash);
 }
 
-
+// Attempt login with the provided email/password combination. Return found user object if successful
 const login = async (email, password) => {
 
     // check if the email exists in the database
-    const result = await emailExists(email);
-    if (res.rowCount === 0) {
+    const result = await executeQuery("SELECT * FROM users WHERE email = $1;", email)
+    if (result.rowCount === 0) {
         return {};
     }
 
