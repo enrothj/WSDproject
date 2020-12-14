@@ -11,7 +11,25 @@ const showSummaryForUser = async ({render, session}) => {
   console.log(m_data);
   const status = await authenticationStatus(session);
 
-  render("./summarization/summary_user.ejs", {w_data: w_data, m_data: m_data, authStatus: status});
+  const data = {
+    authStatus: status,
+    w_data: w_data,
+    m_data: m_data,
+  };
+
+  if (Object.keys(w_data).length === 0) {
+    data.w_dataFound = false;
+  } else {
+    data.w_dataFound = true;
+  }
+
+  if (Object.keys(m_data).length === 0) {
+    data.w_dataFound = false;
+  } else {
+    data.w_dataFound = true;
+  }
+
+  render("./summarization/summary_user.ejs", data);
 }
 
 

@@ -2,6 +2,7 @@
 <%- include("../partials/auth.ejs") %>
 <h1>Summary for user</h1>
 Averages for the last seven days:
+<% if (w_dataFound) { %>
 <ul>
     <li>Mood: <%= w_data.mood %></li>
     <li>Sleep Duration: <%= w_data.sleep_duration %></li>
@@ -10,7 +11,10 @@ Averages for the last seven days:
     <li>Time Studying: <%= w_data.time_study %></li>
     <li>Eating Quality: <%= w_data.eating %></li>
 </ul>
+<% } else {%>There was no data for last week.<%} %>
+
 Averages for the last 30 days:
+<% if (m_dataFound) { %>
 <ul>
     <li>Mood: <%= m_data.mood %></li>
     <li>Sleep Duration: <%= m_data.sleep_duration %></li>
@@ -19,6 +23,8 @@ Averages for the last 30 days:
     <li>Time Studying: <%= m_data.time_study %></li>
     <li>Eating Quality: <%= m_data.eating %></li>
 </ul>
+<% } else {%>There was no data for last month.<%} %>
+
 <p>You may also request a summary for a specific week or month. Note that they may lack any report data.</p>
 <p>Request a summary for a week:</p><br>
 <form method="POST" action="/behavior/summary/week">
