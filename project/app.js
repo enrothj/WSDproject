@@ -3,6 +3,7 @@ import { router } from "./routes/routes.js";
 import * as middleware from './middlewares/middlewares.js';
 import { viewEngine, engineFactory, adapterFactory } from "./deps.js";
 import { Session } from "./deps.js";
+//import { oakCors } from "./deps.js";
 
 
 const app = new Application();
@@ -12,6 +13,8 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views"
 }));
+
+//app.use(oakCors); // did not work, shut down all requests
 
 const session = new Session({ framework: "oak" });
 await session.init();
