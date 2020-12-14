@@ -41,7 +41,6 @@ const showLandingPage = async ({session, render}) => {
   // Get yesterday's average mood
   data.yesterday = await summaryService.getAvgMoodYesterday();
   data.authStatus = await authenticationStatus(session);
-  console.log(data);
 
   render('landing.ejs', data);
 }
