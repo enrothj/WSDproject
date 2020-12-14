@@ -1,13 +1,3 @@
-The behavior reported to the application are as follows:
-
-    Sleep duration and sleep quality
-    Time spent on sports and exercise
-    Time spent studying
-    Regularity and quality of eating
-    Generic mood
-
-Database creation commands
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(320) NOT NULL,
@@ -31,3 +21,5 @@ CREATE TABLE reports (
     time_study DECIMAL(4,2) check (time_study between 0 and 24),
     eating INTEGER check (eating between 1 and 5)
 );
+
+CREATE INDEX ON reports (date, user_id);
