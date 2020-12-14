@@ -112,7 +112,7 @@ const getAvgMoodToday = async () => {
         return result.rowsOfObjects()[0];
     }
 
-    return {nood: 0};
+    return {mood: 0};
 }
 
 const getAvgMoodYesterday = async () => {
