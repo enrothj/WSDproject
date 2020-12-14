@@ -52,16 +52,6 @@ const getReporting = async ({render, session}) => {
     render ('./reporting/report_choose.ejs', data);
 }
 
-// Renders report.ejs with the matching params
-const showReport = async({params, render}) => {
-    render('./reporting/report.ejs', await getReport(params.id));
-}
-
-// Shows all reports to the user.
-const showAllReports = async({render}) => {
-    render('./reporting/reports.ejs', {reports: await getAllReports() });
-}
-
 // Validate the morning report form data
 const validateMorningForm = async (data) => {
     const validationRules = {
