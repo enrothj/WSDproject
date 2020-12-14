@@ -57,6 +57,7 @@ const showWeekSummary = async({render, request, session}) => {
   const data = {
     user_id: await getUserId(session),
     week: week,
+    authStatus: await authenticationStatus(session),
   }
   const result = await summaryService.getAveragesWeekForUser(week, data.user_id);
   
@@ -79,7 +80,8 @@ const showMonthSummary = async({render, request, session}) => {
 
   const data = {
     user_id: await getUserId(session),
-    week: week,
+    month: month,
+    authStatus: await authenticationStatus(session),
   }
   const result = await summaryService.getAveragesMonthForUser(month, data.user_id); 
 

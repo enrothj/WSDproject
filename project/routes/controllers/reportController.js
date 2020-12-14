@@ -15,7 +15,7 @@ const getMorningReport = async({render, session}) => {
         date: today,
         errors: [],
         success: "",
-        authStatus: await auth.authenticationStatus(session),
+        authStatus: await authenticationStatus(session),
     }
     render('./reporting/report_morning.ejs', data);
 }
@@ -31,7 +31,7 @@ const getEveningReport = async({render, session}) => {
         date: today,
         errors: [],
         success: "",
-        authStatus: await auth.authenticationStatus(session),
+        authStatus: await authenticationStatus(session),
     }
     render('./reporting/report_evening.ejs', data);
 }
@@ -69,7 +69,7 @@ const postMorningReport = async ({request, session, render, response}) => {
         user_id: await getUserId(session),
         errors: [],
         success: "",
-        authStatus: await auth.authenticationStatus(session),
+        authStatus: await authenticationStatus(session),
     };
 
     // Validate the form
@@ -114,7 +114,7 @@ const postEveningReport = async ({request, session, render, response}) => {
         user_id: await getUserId(session), // TODO auth
         errors: [],
         success: "",
-        authStatus: await auth.authenticationStatus(session),
+        authStatus: await authenticationStatus(session),
     };
     
     // Validate the form
@@ -132,5 +132,4 @@ const postEveningReport = async ({request, session, render, response}) => {
     response.redirect("/behavior/reporting");
 }
 
-export { getNews, getItem };
 export { getMorningReport, getEveningReport, getReporting, postMorningReport, postEveningReport };

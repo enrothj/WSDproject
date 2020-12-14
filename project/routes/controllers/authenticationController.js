@@ -2,9 +2,10 @@ import { validate, required, minLength, isEmail } from "https://deno.land/x/vali
 import * as auth from "../../services/authenticationService.js";
 
 // Shows the login form
-const showLogin = ({render}) => {
+const showLogin = async ({render, session}) => {
     const data = {
         errors: {},
+        authStatus: await auth.authenticationStatus(session),
     };
     render('auth/login.ejs', data);
 }
@@ -18,11 +19,12 @@ const showLogout = async ({session, render}) => {
 }
 
 // Shows the registration form
-const showRegister = ({render}) => {
+const showRegister = async ({render, session}) => {
     const data = {
         email: "",
         errors: {},
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     };
     render('auth/register.ejs', data);
 }
@@ -39,7 +41,10 @@ const postLogin = async ({render, response, request, session}) => {
     const userObj = await auth.login(email, password);
     // If no user was found, return the error message
     if (Object.keys(userObj).length === 0) {
-        const data = {errors: {login: {message: "Login failed."}}};
+        const data = {
+            authStatus: await auth.authenticationStatus(session),
+            errors: {login: {message: "Login failed."}}
+        };
         response.status = 401;
         render("auth/login.ejs", data);
         return;
@@ -75,7 +80,7 @@ const validateRegistrationForm = async (data) => {
 }
 
 // Submits the registration form.
-const postRegister = async ({render, request}) => {
+const postRegister = async ({render, request, session}) => {
     const body = request.body();
     const params = await body.value;
     
@@ -89,6 +94,7 @@ const postRegister = async ({render, request}) => {
         password: password,
         errors: {},
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     };
     const [passes, errors] = await validateRegistrationForm(data);
 
