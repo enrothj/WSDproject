@@ -4,17 +4,8 @@ import { getAllReports, getReport, reportStatus} from "../../services/reportServ
 import { reportMorning, reportEvening } from "../../services/reportService.js";
 import { getUserId, authenticationStatus } from "../../services/authenticationService.js";
 
-const getNews = async({render}) => {
-    render('index.ejs', { news: await getAllNews() } );
-}
 
-const getItem = async({params, render}) => {
-    const content = await getNewsItem(params.id);
-    console.log(content);
-    render('news-item.ejs', content);
-}
-
-const getMorningReport = async({render}) => {
+const getMorningReport = async({render, session}) => {
     const date = new Date();
     const today = date.toJSON().split('T')[0];
     const data = {
@@ -24,11 +15,12 @@ const getMorningReport = async({render}) => {
         date: today,
         errors: [],
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     }
     render('./reporting/report_morning.ejs', data);
 }
 
-const getEveningReport = async({render}) => {
+const getEveningReport = async({render, session}) => {
     const date = new Date();
     const today = date.toJSON().split('T')[0];
     const data = {
@@ -39,6 +31,7 @@ const getEveningReport = async({render}) => {
         date: today,
         errors: [],
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     }
     render('./reporting/report_evening.ejs', data);
 }
@@ -76,6 +69,7 @@ const postMorningReport = async ({request, session, render, response}) => {
         user_id: await getUserId(session),
         errors: [],
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     };
 
     // Validate the form
@@ -120,6 +114,7 @@ const postEveningReport = async ({request, session, render, response}) => {
         user_id: await getUserId(session), // TODO auth
         errors: [],
         success: "",
+        authStatus: await auth.authenticationStatus(session),
     };
     
     // Validate the form
@@ -138,4 +133,4 @@ const postEveningReport = async ({request, session, render, response}) => {
 }
 
 export { getNews, getItem };
-export { getMorningReport, getEveningReport, showAllReports, showReport, getReporting, postMorningReport, postEveningReport };
+export { getMorningReport, getEveningReport, getReporting, postMorningReport, postEveningReport };
