@@ -1,3 +1,4 @@
+import { validate, required, minLength, isEmail } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 import * as auth from "../../services/authenticationService.js";
 
 // Shows the login form
@@ -12,7 +13,12 @@ const showLogout = ({render}) => {
 
 // Shows the registration form
 const showRegister = ({render}) => {
-    render('auth/register.ejs');
+    const data = {
+        email: "",
+        errors: {},
+        success: "",
+    };
+    render('auth/register.ejs', data);
 }
 
 // Submits the login form
@@ -44,17 +50,17 @@ const postLogin = async ({render, response, request, session}) => {
 }
 
 // Submits the logout
-const postLogout = ({session, response}) => {
+const postLogout = async ({session, response}) => {
     await session.set('authenticated', false);
     await session.set('user', {});
     response.status = 200;
     response.body = "Successfully logged out.";
 }
 
-const validateRegistrationForm = (data) => {
+const validateRegistrationForm = async (data) => {
     const validationRules = {
         email: [required, minLength(6), isEmail],
-        password: [required, minLength(6)],
+        password: [required, minLength(4)],
     };
 
     return await validate(data, validationRules);
@@ -69,18 +75,28 @@ const postRegister = async ({render, request}) => {
     const password = params.get('password');
     const verification = params.get('verification');
 
+    console.log(email+","+password+","+verification);
+
     // Validate the form
-    const data = {};
-    const [passes, errors] = validateRegistrationForm({email: email, password: password});
+    const data = {
+        email: email,
+        password: password,
+        errors: {},
+        success: "",
+    };
+    const [passes, errors] = await validateRegistrationForm(data);
 
     if (!passes) {
         data.errors = errors;
+        if (errors.hasOwnProperty(email)) {
+            data.email = email;
+        }
         render("auth/register.ejs", data);
         return;
     }
 
     if (password !== verification) {
-        data.errors.password = 'The entered passwords did not match';
+        data.errors.password = "The entered passwords did not match";
         render("auth/register.ejs", data);
         return;
     }
@@ -93,8 +109,9 @@ const postRegister = async ({render, request}) => {
     
     // Register to the database
     await auth.register(email, password);
-    // Display that the registration was successful (in the error partial :P)
-    data.errors.success = "Registration was successful. You may now login.";
+    // Display that the registration was successful
+    data.success = "Registration was successful. You may now login.";
+
     render("auth/register.ejs", data);
 }
 
