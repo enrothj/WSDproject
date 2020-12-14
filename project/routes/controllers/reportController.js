@@ -1,4 +1,5 @@
 //import { getAllNews, getNewsItem } from "../../services/newsService.js";
+import { validate, required, isNumeric, numberBetween, isDate } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 import { getAllReports, getReport, reportStatus} from "../../services/reportService.js";
 import { reportMorning, reportEvening } from "../../services/reportService.js";
 
@@ -13,12 +14,34 @@ const getItem = async({params, render}) => {
 }
 
 
+
 const getMorningReport = async({render}) => {
-    render('./reporting/report_morning.ejs');
+    const date = new Date();
+    const today = date.toJSON().split('T')[0];
+    const data = {
+        mood: 1,
+        sleep_duration: 0,
+        sleep_quality: 1,
+        date: today,
+        errors: [],
+        success: "",
+    }
+    render('./reporting/report_morning.ejs', data);
 }
 
 const getEveningReport = async({render}) => {
-    render('./reporting/report_evening.ejs');
+    const date = new Date();
+    const today = date.toJSON().split('T')[0];
+    const data = {
+        mood: 1,
+        sport: 0,
+        study: 0,
+        eating: 1,
+        date: today,
+        errors: [],
+        success: "",
+    }
+    render('./reporting/report_evening.ejs', data);
 }
 
 // On report choosing page, show report completion status for the day
@@ -37,41 +60,87 @@ const showAllReports = async({render}) => {
     render('./reporting/reports.ejs', {reports: await getAllReports() });
 }
 
+// Validate the morning report form data
+const validateMorningForm = async (data) => {
+    const validationRules = {
+        mood: [required, isNumeric, numberBetween(1, 5)],
+        sleep_duration: [required, isNumeric, numberBetween(0, 24)],
+        sleep_quality: [required, isNumeric, numberBetween(1, 5)],
+        date: [required, isDate],
+    };
+
+    return await validate(data, validationRules);
+}
 
 const postMorningReport = async ({request, render}) => {
     const body = request.body();
     const params = await body.value;
 
-    const report = {};
-    report.mood = params.get('mood');
-    report.sleep_duration = params.get('sleep_duration');
-    report.sleep_quality = params.get('sleep_quality');
-    report.date = params.get('date');
-    console.log("date "+report.date);
-    report.user_id = 1; // TODO auth
+    const data = {
+        mood: Number(params.get('mood')),
+        sleep_duration: Number(params.get('sleep_duration')),
+        sleep_quality: Number(params.get('sleep_quality')),
+        date: params.get('date'),
+        user_id: 1, // TODO auth
+        errors: [],
+        success: "",
+    };
 
-    await reportMorning(report);
+    // Validate the form
+    const [passes, errors] = await validateMorningForm(data);
 
-    // TODO: validation
-    render('./reporting/report_morning.ejs');
+    if (!passes) {
+        data.errors = errors;
+        render("reporting/report_morning.ejs", data);
+        return;
+    }
+
+    await reportMorning(data);
+    data.success = "Successfully submitted morning report."
+
+    render('./reporting/report_morning.ejs', data);
+}
+
+// Validation for the evening report form data
+const validateEveningForm = async (data) => {
+    const validationRules = {
+        mood: [required, isNumeric, numberBetween(1, 5)],
+        sport: [required, isNumeric, numberBetween(0, 24)],
+        study: [required, isNumeric, numberBetween(1, 5)],
+        eating: [required, isNumeric, numberBetween(1,5)],
+        date: [required, isDate],
+    };
+
+    return await validate(data, validationRules);
 }
 
 const postEveningReport = async ({request, render}) => {
     const body = request.body();
     const params = await body.value;
 
-    const report = {};
-    report.mood = params.get('mood');
-    report.sport = params.get('sport');
-    report.study = params.get('study');
-    report.eating = params.get('eating');
-    report.date = params.get('date');
-    report.user_id = 1; // TODO auth
+    const data = {
+        mood: Number(params.get('mood')),
+        sport: Number(params.get('sport')),
+        study: Number(params.get('study')),
+        eating: Number(params.get('eating')),
+        date: params.get('date'),
+        user_id: 1, // TODO auth
+        errors: [],
+        success: "",
+    };
+    
+    // Validate the form
+    const [passes, errors] = await validateEveningForm(data);
 
-    await reportEvening(report);
+    if (!passes) {
+        data.errors = errors;
+        render("reporting/report_evening.ejs", data);
+        return;
+    }
 
-    // TODO: validation
-    render('./reporting/report_evening.ejs');
+    await reportEvening(data);
+
+    render('./reporting/report_evening.ejs', data);
 }
 
 export { getNews, getItem };

@@ -1,7 +1,9 @@
-<% if (errors && errors[attribute]) { %>
-    <ul>
+<% if (errors) { %>
+<ul>
+    <% Object.keys(errors).forEach((attribute) => { %>
         <% Object.values(errors[attribute]).forEach((err) => { %>
             <li><%= err %></li>
         <% }); %>
-    </ul>
+    <% }); %>
+</ul>
 <% } %>

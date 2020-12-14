@@ -1,12 +1,14 @@
 <%- include("../partials/header.ejs") %>
 <h1>Report evening</h1>
+<%- include("../partials/error.ejs") %>
+<%- include("../partials/success.ejs") %> 
 <body>
     <form method="POST" action="/behavior/reporting/evening">
-        <input type="range" name="mood" value="1" min=1 max=5>
-        <input type="number" name="sport" value="0" min=0 max=24>
-        <input type="number" name="study" value="0" min=0 max=24>
-        <input type="range" name="eating" value="1" min=1 max=5>
-        <input type="date" name="date">
+        <input type="range" name="mood" value="<%= mood %>" min=1 max=5>
+        <input type="number" name="sport" value="<%= sport %>" min=0 max=24>
+        <input type="number" name="study" value="<%= study %>" min=0 max=24>
+        <input type="range" name="eating" value="<%= eating %>" min=1 max=5>
+        <input type="date" name="date" value="<%= date %>">
         <input type="submit" name="Submit Evening Report">
     </form>
 </body>
